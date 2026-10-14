@@ -26,6 +26,17 @@ npm test           # node:test runner
 
 The server listens on `process.env.PORT || 3000`, bound to `0.0.0.0`.
 
+## UI
+
+A static frontend is served from `public/` and mounted with `express.static` in `server.js`. Start the server and open the app in a browser:
+
+```bash
+npm start
+# then open http://localhost:3000
+```
+
+The page lets you create a short link (with an optional TTL in seconds), list existing links, copy a short URL, and delete entries. It talks to the same `/api/v1/urls` endpoints documented below, so no separate build step or dev server is required. In watch mode, use `npm run dev` instead.
+
 ## Environment
 
 Copy `.env.example` to `.env` and adjust:
@@ -80,5 +91,6 @@ In-memory `Map` store (`lib/store.js`). The interface is async (`await store.get
 ## Notes
 
 - ESM only. No TypeScript, JSX, bundlers, or frontend tooling.
+- The UI is plain HTML/CSS/JS under `public/`, served statically by Express with no build step.
 - Zero runtime dependencies beyond `express`.
-- The `/:code` redirect route is mounted **last** so it does not shadow `/api/v1/*`.
+- The `/:code` redirect route is mounted **last** so it does not shadow `/api/v1/*`, and the static frontend is mounted before it so `/` serves the UI.

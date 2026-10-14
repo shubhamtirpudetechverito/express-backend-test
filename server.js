@@ -1,4 +1,6 @@
 import express from 'express';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import healthRouter from './routes/health.js';
 import infoRouter from './routes/info.js';
 import urlsRouter, { redirectRouter } from './routes/urls.js';
@@ -9,6 +11,8 @@ import store from './lib/store.js';
 const app = express();
 const PORT = process.env.PORT || 3000;
 const HOST = '0.0.0.0';
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const PUBLIC_DIR = path.join(__dirname, 'public');
 
 app.use(express.json({ limit: '100kb' }));
 
@@ -31,15 +35,8 @@ app.use('/health', healthRouter);
 app.use('/api/v1/info', infoRouter);
 app.use('/api/v1/urls', urlsRouter);
 
-// Root index
-app.get('/', (req, res) => {
-  res.json({
-    name: 'express-backend-test',
-    message: 'URL Shortener API',
-    docs: '/api/v1/info',
-    health: '/health',
-  });
-});
+// Static frontend (must come before the top-level /:code redirect)
+app.use(express.static(PUBLIC_DIR));
 // Top-level /:code redirect MUST be last so it doesn't shadow the API
 app.use('/', redirectRouter);
 
