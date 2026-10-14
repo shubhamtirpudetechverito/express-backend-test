@@ -35,19 +35,17 @@ router.post('/', async (req, res, next) => {
       ttlMs = ttl * 1000; // ttl in seconds
     }
 
-    const existing = await store.findByLongUrl(url);
-    if (existing) {
+    const { entry, created } = await store.createIfAbsent({ longUrl: url, ttlMs });
+    if (!created) {
       return res.status(409).json({
         error: 'duplicate',
-        code: existing.code,
-        shortUrl: `${BASE_URL}/${existing.code}`,
-        longUrl: existing.longUrl,
-        createdAt: existing.createdAt,
-        expiresAt: existing.expiresAt ?? null,
+        code: entry.code,
+        shortUrl: `${BASE_URL}/${entry.code}`,
+        longUrl: entry.longUrl,
+        createdAt: entry.createdAt,
+        expiresAt: entry.expiresAt ?? null,
       });
     }
-
-    const entry = await store.create({ longUrl: url, ttlMs });
 
     res.status(201).json({
       code: entry.code,
