@@ -59,7 +59,7 @@ cleanupTimer.unref?.();
 
 const server = app.listen(PORT, HOST, () => {
   console.log(`Server listening on http://${HOST}:${PORT}`);
-});
+});,
 
 function shutdown(signal) {
   console.log(`\n${signal} received — shutting down gracefully...`);
