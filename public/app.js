@@ -7,7 +7,31 @@ const resultBox = document.getElementById('result');
 const linksBox = document.getElementById('links');
 const statusEl = document.getElementById('status');
 const refreshBtn = document.getElementById('refresh-btn');
+const themeToggle = document.getElementById('theme-toggle');
 const template = document.getElementById('link-template');
+
+function syncThemeLabel() {
+  const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+  themeToggle.textContent = theme === 'dark' ? 'Light' : 'Dark';
+  themeToggle.setAttribute(
+    'aria-label',
+    'Switch to ' + (theme === 'dark' ? 'light' : 'dark') + ' theme'
+  );
+}
+
+themeToggle.addEventListener('click', () => {
+  const next =
+    document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  try {
+    localStorage.setItem('theme', next);
+  } catch {
+    void 0;
+  }
+  syncThemeLabel();
+});
+
+syncThemeLabel();
 
 function setStatus(message, kind) {
   statusEl.textContent = message || '';

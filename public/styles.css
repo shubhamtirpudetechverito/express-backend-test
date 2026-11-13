@@ -4,8 +4,22 @@
   --muted: #6b6b6b;
   --border: #e2e2e2;
   --accent: #111111;
+  --accent-text: #ffffff;
+  --field-bg: #ffffff;
   --danger: #c0392b;
   --ok: #1e7a46;
+}
+
+[data-theme="dark"] {
+  --bg: #111111;
+  --text: #f2f2f2;
+  --muted: #a0a0a0;
+  --border: #2e2e2e;
+  --accent: #f2f2f2;
+  --accent-text: #111111;
+  --field-bg: #161616;
+  --danger: #ff6b5e;
+  --ok: #4ade80;
 }
 
 * { box-sizing: border-box; }
@@ -26,7 +40,9 @@ body {
   padding: 56px 20px 80px;
 }
 
+.header-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .header h1 { margin: 0 0 4px; font-size: 1.35rem; font-weight: 600; letter-spacing: -0.01em; }
+.theme-toggle { flex: 0 0 auto; margin-bottom: 4px; }
 .subtitle { margin: 0; color: var(--muted); font-size: 0.9rem; }
 .status { display: inline-block; margin-top: 8px; min-height: 1em; font-size: 0.85rem; color: var(--muted); }
 .status.error { color: var(--danger); }
@@ -45,7 +61,7 @@ input {
   flex: 1 1 220px;
   min-width: 0;
   padding: 9px 10px;
-  background: #fff;
+  background: var(--field-bg);
   border: 1px solid var(--border);
   border-radius: 4px;
   color: var(--text);
@@ -60,7 +76,7 @@ button {
   background: var(--accent);
   border: 1px solid var(--accent);
   border-radius: 4px;
-  color: #fff;
+  color: var(--accent-text);
   font-size: 0.9rem;
   font-weight: 500;
   cursor: pointer;

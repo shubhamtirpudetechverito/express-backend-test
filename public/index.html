@@ -4,12 +4,26 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>URL Shortener</title>
+  <script>
+    (function () {
+      try {
+        var theme = localStorage.getItem('theme');
+        if (!theme) {
+          theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch (e) {}
+    })();
+  </script>
   <link rel="stylesheet" href="/styles.css" />
 </head>
 <body>
   <div class="app">
     <header class="header">
-      <h1>URL Shortener</h1>
+      <div class="header-top">
+        <h1>URL Shortener</h1>
+        <button id="theme-toggle" class="ghost theme-toggle" type="button" aria-label="Toggle theme">Dark</button>
+      </div>
       <p class="subtitle">Create and manage short links.</p>
       <span id="status" class="status" aria-live="polite"></span>
     </header>
